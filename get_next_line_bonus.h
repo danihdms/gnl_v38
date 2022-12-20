@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dhaydamo <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/26 16:59:54 by dhaydamo          #+#    #+#             */
-/*   Updated: 2022/11/26 17:01:32 by dhaydamo         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
@@ -21,12 +9,22 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <string.h>
 
-void	join(char **res, char *buffer);
-char	*read_line(char *buffer, int fd);
-char	*get_next_line(int fd);
+typedef struct s_buffer
+{
+    int     fd;
+    char    buff[BUFFER_SIZE];
+    struct s_buffer *next;
+} t_buffer;
+
+t_buffer    *find_buff(t_buffer **first, int fd);
+t_buffer    *add_new_buff(t_buffer **first, int fd);
+void	join(char **res, t_buffer *buffer);
+char	*read_line(t_buffer *buffer, int fd);
+char    *get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-int		contains_new_line(char *str);
+int	contains_new_line(char *str);
 void	clean_buffer(char *buffer);
 char	*ft_strjoin(char *final, char *buffer);
 
